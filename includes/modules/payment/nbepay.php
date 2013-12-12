@@ -1,12 +1,11 @@
 <?php
 /**
-* MOLPay osCommerce Plugin
-*
-* @package  Callback
-* @author   MOLPay Technical Team <technical@molpay.com>
-* @version  1.0.0
-*
-*/
+ * MOLPay osCommerce Plugin
+ * 
+ * @package Payment Gateway
+ * @author MOLPay Technical Team <technical@molpay.com>
+ * @version 2.0.0
+ */
 
 class nbepay {
     
@@ -168,7 +167,6 @@ class nbepay {
   
         tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_hist);
     }
-		
 
     function pre_prod($prods) {
         $n = sizeof($prods);

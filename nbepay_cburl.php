@@ -1,12 +1,12 @@
 <?php
 /**
-* MOLPay osCommerce Plugin
-*
-* @package  Callback
-* @author   MOLPay Technical Team <technical@molpay.com>
-* @version  1.0.0
-*
-*/
+ * MOLPay osCommerce Plugin
+ * 
+ * @package Payment Gateway
+ * @author MOLPay Technical Team <technical@molpay.com>
+ * @version 2.0.0
+ */
+
 require('includes/application_top.php');
 require('includes/languages/english/checkout_process.php');
 require(DIR_WS_CLASSES . 'order.php');
@@ -248,7 +248,5 @@ if($succ) {
 }
 else {
     tep_redirect( tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=nbepay&ErrDesc=nbepaypaymentfailed', 'SSL') );    
-} 
-			 
-  
+}
 ?>

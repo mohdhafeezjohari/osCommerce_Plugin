@@ -1,12 +1,11 @@
 <?php
 /**
-* MOLPay osCommerce Plugin
-*
-* @package  Callback
-* @author   MOLPay Technical Team <technical@molpay.com>
-* @version  1.0.0
-*
-*/
+ * MOLPay osCommerce Plugin
+ * 
+ * @package Payment Gateway
+ * @author MOLPay Technical Team <technical@molpay.com>
+ * @version 2.0.0
+ */
 
 define('MODULE_PAYMENT_nbepay_TEXT_TITLE', 'NBePay Online Payment Gateway (Visa, MasterCard, Maybank2u, MEPS, FPX, etc)');
 define('MODULE_PAYMENT_nbepay_TEXT_DESCRIPTION', 'NetBuilder NBePay Online Payment Gateway is a service to help Malaysian merchant to sell online. <a href="http://www.netbuilder.com.my" target=_blank>http://www.netbuilder.com.my</a>');
