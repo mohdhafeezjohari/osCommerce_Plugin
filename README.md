@@ -4,6 +4,11 @@ MOLPay osCommerce Plugin
 MOLPay Plugin for osCommerce Shopping Cart develop by MOLPay technical team.
 
 
+Supported version
+-----------------
+osCommerce version 2.3.x.x and WP 3.7.x
+
+
 Notes
 -----
 
