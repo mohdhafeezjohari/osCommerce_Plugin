@@ -21,14 +21,14 @@ Installations
 -------------
 
 1. Download or clone this repository. Copy all the file and paste it at your osCommerce root directory.  
-`<osCommerce_DIR>/nbepay_cburl.php`  
-`<osCommerce_DIR>/nbepay_callback.php`  
-`<osCommerce_DIR>/includes/languages/english/modules/payment/nbepay.php`
-`<osCommerce_DIR>/includes/modules/payment/nbepay.php`
+`<osCommerce_DIR>/molpay_cburl.php`  
+`<osCommerce_DIR>/molpay_callback.php`  
+`<osCommerce_DIR>/includes/languages/english/modules/payment/molpay.php`
+`<osCommerce_DIR>/includes/modules/payment/molpay.php`
 
 2. Now, login to your osCommerce backend dashboard, Navigate to Modules > Payment. And click on Install Module.
 
-3. Find NBePay Online Payment Gateway (Visa, MasterCard, Maybank2u, MEPS, FPX, etc) on the list and click on it. The click the Install Module at the sidebar.  
+3. Find MOLPay Online Payment Gateway (Visa, MasterCard, Maybank2u, MEPS, FPX, etc) on the list and click on it. The click the Install Module at the sidebar.  
 
 4. Once the module is install, Click the Edit button to insert your Merchant ID and Verify Key.
 

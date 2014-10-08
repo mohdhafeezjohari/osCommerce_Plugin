@@ -28,8 +28,8 @@ $currency = $info['currency'];
 $paydate = $info['paydate'];
 $chnanel = $info['channel'];
 $skey = $info['skey'];
-$password = MODULE_PAYMENT_nbepay_KEY;
-$nb_order_status = MODULE_PAYMENT_nbepay_ORDER_STATUS_ID; 
+$password = MODULE_PAYMENT_molpay_KEY;
+$nb_order_status = MODULE_PAYMENT_molpay_ORDER_STATUS_ID; 
 $key0 = md5( $tranID.$orderid.$status.$domain.$amount.$currency );
 $key1 = md5( $paydate.$domain.$key0.$appcode.$password );
 
@@ -43,12 +43,12 @@ if ( ($skey==$key1) && ($status=="00") ) {
     tep_db_perform( TABLE_ORDERS, $sql_data_array, "update", "orders_id='" . $orderid . "'" );
     $succ = 1;
 				
-    $comment = "NBePay payment : captured " . $order->info['comments'];
+    $comment = "molpay payment : captured " . $order->info['comments'];
     //================================== PAYMENT FAILED ==================================
 }
 else {		 															
     $nb_order_status = 1;
-    $comment = "NBePay payment : failed " . $order->info['comments'];
+    $comment = "molpay payment : failed " . $order->info['comments'];
 }
 
 $insert_id = $_POST['orderid'];
@@ -137,7 +137,7 @@ for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
         'final_price' => $order->products[$i]['final_price'],
         'products_tax' => $order->products[$i]['tax'],
         'products_quantity' => $order->products[$i]['qty'] );
-    //tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array);  // SAVED DUIRNG NBEPAY PRE-ORDER
+    //tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array);  // SAVED DUIRNG molpay PRE-ORDER
     $order_products_id = tep_db_insert_id(); 
 
     //Insert customer choosen option to order
@@ -171,7 +171,7 @@ for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
                 'products_options_values' => $attributes_values['products_options_values_name'],
                 'options_values_price' => $attributes_values['options_values_price'],
                 'price_prefix' => $attributes_values['price_prefix'] );
-            //tep_db_perform(TABLE_ORDERS_PRODUCTS_ATTRIBUTES, $sql_data_array, "update", "orders_id='".$insert_id."'"); // SAVED DURING NBEPAY PRE-ORDER
+            //tep_db_perform(TABLE_ORDERS_PRODUCTS_ATTRIBUTES, $sql_data_array, "update", "orders_id='".$insert_id."'"); // SAVED DURING molpay PRE-ORDER
             if((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && tep_not_null($attributes_values['products_attributes_filename'])) {
                 $sql_data_array = array(
                     'orders_id' => $insert_id,
@@ -247,6 +247,6 @@ if($succ) {
     tep_redirect(tep_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
 }
 else {
-    tep_redirect( tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=nbepay&ErrDesc=nbepaypaymentfailed', 'SSL') );    
+    tep_redirect( tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=molpay&ErrDesc=molpaypaymentfailed', 'SSL') );    
 }
 ?>

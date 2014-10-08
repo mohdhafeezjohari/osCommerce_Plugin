@@ -7,7 +7,7 @@
  * @version 2.0.0
  */
 
-class nbepay {
+class molpay {
     
     public  $code, 
             $title, 
@@ -17,14 +17,14 @@ class nbepay {
             $order_status;
 
     function __construct() {
-        $this->code = 'nbepay';
-        $this->title = MODULE_PAYMENT_nbepay_TEXT_TITLE;
-        $this->description = MODULE_PAYMENT_nbepay_TEXT_DESCRIPTION;
-        $this->enabled = ((MODULE_PAYMENT_nbepay_STATUS == 'True') ? true : false);
-        $this->form_action_url = 'https://www.onlinepayment.com.my/NBepay/pay/' . MODULE_PAYMENT_nbepay_MERCHANTID . "/";	
+        $this->code = 'molpay';
+        $this->title = MODULE_PAYMENT_molpay_TEXT_TITLE;
+        $this->description = MODULE_PAYMENT_molpay_TEXT_DESCRIPTION;
+        $this->enabled = ((MODULE_PAYMENT_molpay_STATUS == 'True') ? true : false);
+        $this->form_action_url = 'https://www.onlinepayment.com.my/MOLPay/pay/' . MODULE_PAYMENT_molpay_MERCHANTID . "/";	
 
-        if ((int)MODULE_PAYMENT_nbepay_ORDER_STATUS_ID > 0) {
-            $this->order_status = MODULE_PAYMENT_nbepay_ORDER_STATUS_ID;
+        if ((int)MODULE_PAYMENT_molpay_ORDER_STATUS_ID > 0) {
+            $this->order_status = MODULE_PAYMENT_molpay_ORDER_STATUS_ID;
         }	  
         $this->Return_Payment = array();      	  
     }
@@ -81,9 +81,9 @@ class nbepay {
       
         $this->pre_total($oid);
       
-        $vcode = md5($nb_amt.MODULE_PAYMENT_nbepay_MERCHANTID.$oid.MODULE_PAYMENT_nbepay_KEY);			
-        $process_button_string = tep_draw_hidden_field('decline_url', tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'error_message=' . urlencode(MODULE_PAYMENT_nbepay_TEXT_ERROR_MESSAGE), 'SSL', false)) .
-        tep_draw_hidden_field('merchant_id', MODULE_PAYMENT_nbepay_MERCHANTID) .
+        $vcode = md5($nb_amt.MODULE_PAYMENT_molpay_MERCHANTID.$oid.MODULE_PAYMENT_molpay_KEY);			
+        $process_button_string = tep_draw_hidden_field('decline_url', tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'error_message=' . urlencode(MODULE_PAYMENT_molpay_TEXT_ERROR_MESSAGE), 'SSL', false)) .
+        tep_draw_hidden_field('merchant_id', MODULE_PAYMENT_molpay_MERCHANTID) .
         tep_draw_hidden_field('amount',  $nb_amt  ) .
         tep_draw_hidden_field('vcode',  $vcode  ) .
         tep_draw_hidden_field('orderid', $oid) .
@@ -104,7 +104,7 @@ class nbepay {
         tep_draw_hidden_field('street', $order->customer['street_address']) .
         tep_draw_hidden_field('city', $order->customer['city']) .
         tep_draw_hidden_field('state', $order->customer['state']) .
-        tep_draw_hidden_field('returnurl',  tep_href_link('nbepay_cburl.php', tep_session_name().'='.tep_session_id(), 'SSL', false)) .
+        tep_draw_hidden_field('returnurl',  tep_href_link('molpay_cburl.php', tep_session_name().'='.tep_session_id(), 'SSL', false)) .
         tep_draw_hidden_field('zip', $order->customer['postcode']);
         return $process_button_string;      
     }
@@ -153,7 +153,7 @@ class nbepay {
             'currency' => $order->info['currency'],
             'currency_value' => $order->info['currency_value'] );	
         tep_db_perform(TABLE_ORDERS, $sql_data_array);	
-        $comment =  "(NBePay pre-order) : " . $prod . " " . $order->info['comments'];
+        $comment =  "(molpay pre-order) : " . $prod . " " . $order->info['comments'];
 	
         $oid_query = tep_db_query("select Max(orders_id) as maxoid from " . TABLE_ORDERS . " ");
         $oid_res = tep_db_fetch_array($oid_query);
@@ -294,14 +294,14 @@ class nbepay {
         global $HTTP_GET_VARS;
         $error = array(
             'title' => "Unsuccessfull Transaction",
-            'error' => "Sorry, your NBePay transaction cannot be process due to some reasons. Plese make payment again!" );
+            'error' => "Sorry, your MOLPay transaction cannot be process due to some reasons. Plese make payment again!" );
         
         return $error;
     }
 
     function check() {
         if (!isset($this->_check)) {
-            $check_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_PAYMENT_nbepay_STATUS'");
+            $check_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_PAYMENT_molpay_STATUS'");
             $this->_check = tep_db_num_rows($check_query);
         }
         return $this->_check;
@@ -310,26 +310,26 @@ class nbepay {
     function install() {
         tep_db_query("insert into " . TABLE_CONFIGURATION . "
                    (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) 
-                    values ('Enable nbepay Module', 'MODULE_PAYMENT_nbepay_STATUS', 'True', 'Do you want to accept nbepay payments?', '6', '0','tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
+                    values ('Enable molpay Module', 'MODULE_PAYMENT_molpay_STATUS', 'True', 'Do you want to accept molpay payments?', '6', '0','tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
 
         tep_db_query("insert into " . TABLE_CONFIGURATION . " 
                    (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added)
-                    values ('Merchant ID','MODULE_PAYMENT_nbepay_MERCHANTID','','Please have NBePay merchant ID set below in this form.', '6', '0', now())");
+                    values ('Merchant ID','MODULE_PAYMENT_molpay_MERCHANTID','','Please have molpay merchant ID set below in this form.', '6', '0', now())");
 
         tep_db_query("insert into " . TABLE_CONFIGURATION . "
                    (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) 
-                    values ('NBepay Verify Key','MODULE_PAYMENT_nbepay_KEY','','Please have NBePay verification key  set below in this form.', '6', '0', now())");
+                    values ('MOLPay Verify Key','MODULE_PAYMENT_molpay_KEY','','Please have molpay verification key  set below in this form.', '6', '0', now())");
 
         tep_db_query("insert into " . TABLE_CONFIGURATION . "
                    (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) 
-                    values ('Order Status', 'MODULE_PAYMENT_nbepay_OSTATUS', '1', 'Do you want to accept nbepay payments?', '6', '0','tep_cfg_select_option( array(\'True\', \'False\'), ', now()) ");   
+                    values ('Order Status', 'MODULE_PAYMENT_molpay_OSTATUS', '1', 'Do you want to accept molpay payments?', '6', '0','tep_cfg_select_option( array(\'True\', \'False\'), ', now()) ");   
 
         tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, use_function, date_added)
-                    values ('Set Order Status', 'MODULE_PAYMENT_nbepay_ORDER_STATUS_ID', '0', 'Set the status of orders made with this payment module to this value', '6', '0', 'tep_cfg_pull_down_order_statuses(', 'tep_get_order_status_name', now())");
+                    values ('Set Order Status', 'MODULE_PAYMENT_molpay_ORDER_STATUS_ID', '0', 'Set the status of orders made with this payment module to this value', '6', '0', 'tep_cfg_pull_down_order_statuses(', 'tep_get_order_status_name', now())");
 
         tep_db_query("insert into " . TABLE_CONFIGURATION . " 
                    (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added)
-                    values ('Sort order of display.', 'MODULE_PAYMENT_nbepay_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
+                    values ('Sort order of display.', 'MODULE_PAYMENT_molpay_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
       
     }
 
@@ -339,11 +339,11 @@ class nbepay {
 
     function keys() {
         return array(
-            'MODULE_PAYMENT_nbepay_STATUS', 
-            'MODULE_PAYMENT_nbepay_MERCHANTID',
-            'MODULE_PAYMENT_nbepay_KEY',
-            'MODULE_PAYMENT_nbepay_ORDER_STATUS_ID',
-            'MODULE_PAYMENT_nbepay_SORT_ORDER'
+            'MODULE_PAYMENT_molpay_STATUS', 
+            'MODULE_PAYMENT_molpay_MERCHANTID',
+            'MODULE_PAYMENT_molpay_KEY',
+            'MODULE_PAYMENT_molpay_ORDER_STATUS_ID',
+            'MODULE_PAYMENT_molpay_SORT_ORDER'
         );
     }
 }
