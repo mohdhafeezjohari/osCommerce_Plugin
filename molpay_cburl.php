@@ -51,6 +51,25 @@ else {
     $comment = "molpay payment : failed " . $order->info['comments'];
 }
 
+//===========================IPN===============================================//
+while ( list($k,$v) = each($info) ) 
+{
+    $postData[]= $k."=".$v;
+}
+$postdata   =implode("&",$postData);
+$url        ="https://www.onlinepayment.com.my/MOLPay/API/chkstat/returnipn.php";
+$ch         =curl_init();
+curl_setopt($ch, CURLOPT_POST , 1 );
+curl_setopt($ch, CURLOPT_POSTFIELDS , $postdata );
+curl_setopt($ch, CURLOPT_URL , $url );
+curl_setopt($ch, CURLOPT_HEADER , 1 );
+curl_setopt($ch, CURLINFO_HEADER_OUT , TRUE );
+curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1 );
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , FALSE);
+$result = curl_exec( $ch );
+curl_close( $ch );
+//=======================END OF IPN=============================================//
+
 $insert_id = $_POST['orderid'];
 
 //======= ORDERS TOTAL =======
