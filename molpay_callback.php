@@ -212,6 +212,13 @@ if ( $nbcb=="1" ) {
         $comment = "(callback) molpay payment : failed ".$order->info['comments'];
     }
 	
+     //===========================CALLBACK IPN===============================================//
+    if($nbcb==1)
+    {
+        echo "CBTOKEN:MPSTATOK";
+    }
+    //=======================END OF IPN=============================================//
+    
     $insert_id = $_POST['orderid'];
   
 	
